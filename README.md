@@ -1,6 +1,12 @@
 # Mario
 
+[![Build Status](https://travis-ci.org/best-doctor/Mario.svg?branch=master)](https://travis-ci.org/best-doctor/Mario)
+[![Maintainability](https://api.codeclimate.com/v1/badges/86b3c0549c660bda7f4f/maintainability)](https://codeclimate.com/github/best-doctor/Mario/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/86b3c0549c660bda7f4f/test_coverage)](https://codeclimate.com/github/best-doctor/Mario/test_coverage)
+
 Library for separating data input, output and processing in your business application.
+
+![Mario](https://raw.githubusercontent.com/best-doctor/Mario/master/docs_imgs/mario.png)
 
 ## Usage example
 
