@@ -1,7 +1,6 @@
 import logging
 
-from base_pipeline import BasePipeline
-from decorators import process_pipe
+from super_mario import BasePipeline, process_pipe
 
 
 logging.basicConfig(level=logging.DEBUG)

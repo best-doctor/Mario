@@ -1,5 +1,4 @@
-from src.base_pipeline import BasePipeline
-from src.decorators import process_pipe
+from super_mario import BasePipeline, process_pipe
 
 
 def test_simple_pipeline():
