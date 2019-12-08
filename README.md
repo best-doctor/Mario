@@ -3,15 +3,19 @@
 [![Build Status](https://travis-ci.org/best-doctor/Mario.svg?branch=master)](https://travis-ci.org/best-doctor/Mario)
 [![Maintainability](https://api.codeclimate.com/v1/badges/86b3c0549c660bda7f4f/maintainability)](https://codeclimate.com/github/best-doctor/Mario/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/86b3c0549c660bda7f4f/test_coverage)](https://codeclimate.com/github/best-doctor/Mario/test_coverage)
-
+[![PyPI version](https://badge.fury.io/py/super-mario.svg)](https://badge.fury.io/py/super-mario)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/super-mario)
 Library for separating data input, output and processing in your business application.
 
 ![Mario](https://raw.githubusercontent.com/best-doctor/Mario/master/docs_imgs/mario.png)
 
 **Disclaimer**: the library is sooo pre-alpha.
 
-## Usage example
+## Installation
 
+`pip install super-mario`
+
+## Usage example
 
 ```python
 class VisitHistoryView(BasePipeline):
