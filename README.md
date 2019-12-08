@@ -8,6 +8,8 @@ Library for separating data input, output and processing in your business applic
 
 ![Mario](https://raw.githubusercontent.com/best-doctor/Mario/master/docs_imgs/mario.png)
 
+**Disclaimer**: the library is sooo pre-alpha.
+
 ## Usage example
 
 
