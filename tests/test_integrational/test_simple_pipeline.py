@@ -20,3 +20,30 @@ def test_simple_pipeline():
 
     result = SimplePipeline().run(a=2, b=3, c=4)
     assert result == 20
+
+
+def test_no_static_method_pipeline():
+    class SimplePipeline(BasePipeline):
+        pipeline = [
+            'sum_numbers',
+            'sum_numbers_again',
+            'multiply_numbers',
+        ]
+
+        @staticmethod
+        @process_pipe
+        def sum_numbers(a, b):
+            return {'d': a + b}
+
+        @process_pipe
+        @staticmethod
+        def sum_numbers_again(d):
+            return {'e': d + 2}
+
+
+        @process_pipe
+        def multiply_numbers(e, d):
+            return {'e': e * d}
+
+    result = SimplePipeline().run(a=2, b=3, c=4)
+    assert result == 35
