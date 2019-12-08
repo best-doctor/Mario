@@ -4,4 +4,4 @@ check:
 	make test
 
 test:
-	PYTHONPATH=./src:$PYTHONPATH python -m pytest --cov=super_mario --cov-report=xml -p no:warnings --disable-socket
+	python -m pytest --cov=super_mario --cov-report=xml -p no:warnings --disable-socket

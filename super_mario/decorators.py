@@ -16,15 +16,10 @@ def _static_method_by_default(wrapped, instance, args, kwargs):
 
 
 @wrapt.decorator
-def input_pipe(wrapped, instance, args, kwargs):
+def base_pipe_decorator(wrapped, instance, args, kwargs):
     return _static_method_by_default(wrapped, instance, args, kwargs)
 
 
-@wrapt.decorator
-def process_pipe(wrapped, instance, args, kwargs):
-    return _static_method_by_default(wrapped, instance, args, kwargs)
-
-
-@wrapt.decorator
-def output_pipe(wrapped, instance, args, kwargs):
-    return _static_method_by_default(wrapped, instance, args, kwargs)
+input_pipe = base_pipe_decorator
+process_pipe = base_pipe_decorator
+output_pipe = base_pipe_decorator

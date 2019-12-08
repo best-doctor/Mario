@@ -2,6 +2,7 @@ import logging
 from copy import deepcopy
 from typing import List, Dict, Any, Mapping
 
+from super_mario.exceptions import ProgrammingException
 
 ContextType = Dict[str, Any]
 ImmutableContext = Mapping[str, Any]
@@ -12,6 +13,18 @@ logger = logging.getLogger(__name__)
 class BasePipeline:
     __context__: ContextType = {}
     pipeline: List[str] = []
+
+    def __init__(self):
+        super().__init__()
+        self.validate_pipeline_raise_on_error()
+
+    @classmethod
+    def validate_pipeline_raise_on_error(cls):
+        for pipe_name in cls.pipeline:
+            if pipe_name not in cls.__dict__:
+                raise ProgrammingException(
+                    f'{pipe_name} is not implemented in {cls.__name__}',
+                )
 
     def get_pipe_args(self, pipe_callable) -> ImmutableContext:
         pipe_args_names = pipe_callable.__code__.co_varnames
