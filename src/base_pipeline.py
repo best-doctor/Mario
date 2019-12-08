@@ -1,8 +1,12 @@
+import logging
 from copy import deepcopy
 from typing import List, Dict, Any, Mapping
 
+
 ContextType = Dict[str, Any]
 ImmutableContext = Mapping[str, Any]
+
+logger = logging.getLogger(__name__)
 
 
 class BasePipeline:
@@ -17,7 +21,9 @@ class BasePipeline:
         for pipe_name in self.pipeline:
             pipe = getattr(self, pipe_name)
             pipe_args = self.get_pipe_args(pipe)
+            logger.debug(f'Executing {pipe_name} with {pipe_args}...')
             result = pipe(**pipe_args)
+            logger.debug(f'\t{pipe_name} finished')
             self.__context__.update(result)
         return result
 
