@@ -17,3 +17,20 @@ def test_lack_of_pipes_raises_error():
 
     with pytest.raises(ProgrammingException):
         SimplePipeline()
+
+
+def test_complex_data_in_result_raises_error():
+    class C:
+        pass
+
+    class SimplePipeline(BasePipeline):
+        pipeline = [
+            'sum_numbers',
+        ]
+
+        @process_pipe
+        def sum_numbers():
+            return {'c': C()}
+
+    with pytest.raises(ProgrammingException):
+        SimplePipeline().run()
