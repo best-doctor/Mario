@@ -12,6 +12,25 @@ Library for separating data input, output and processing in your business applic
 
 **Disclaimer**: the library is sooo pre-alpha.
 
+## Motivation & main idea
+
+You have tons of business logic.
+You like clean architecture, but you're sane. 
+You like dynamic structure of Python, but you're tied of runtime errors.
+You want to break things a little less and keep moving fast.
+You're is the right place.
+
+Mario is a framework for business logic.
+Like Django or Flask for web-services.
+
+It makes you put logic to pipelines: sets of pipes,
+each pipe does only one thing and only non-complex types
+can be transferred from pipe to pipe.
+
+Each pipe is one of 3 types: input, output, processing.
+Input and output should be non-complex (like really non-complex,
+cyclomatic complexity ~3), processing pipes should be pure. 
+
 ## Installation
 
 `pip install super-mario`
