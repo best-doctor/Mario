@@ -43,7 +43,7 @@ def test_no_static_method_pipeline():
 
         @process_pipe
         def multiply_numbers(e, d):
-            return {'e': e * d}
+            return {'f': e * d}
 
     result = SimplePipeline().run(a=2, b=3, c=4)
     assert result == 35
