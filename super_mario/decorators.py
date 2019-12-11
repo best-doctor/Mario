@@ -1,9 +1,15 @@
 import inspect
+from typing import Callable, Any, Tuple, Dict
 
 import wrapt
 
 
-def _static_method_by_default(wrapped, instance, args, kwargs):
+def _static_method_by_default(
+    wrapped: Callable,
+    instance: Any,
+    args: Tuple[Any],
+    kwargs: Dict[str, Any],
+) -> Callable:
     """
     Make decorator behaves like @staticmethod.
 
@@ -16,7 +22,12 @@ def _static_method_by_default(wrapped, instance, args, kwargs):
 
 
 @wrapt.decorator
-def base_pipe_decorator(wrapped, instance, args, kwargs):
+def base_pipe_decorator(
+    wrapped: Callable,
+    instance: Any,
+    args: Tuple[Any],
+    kwargs: Dict[str, Any],
+) -> Callable:
     return _static_method_by_default(wrapped, instance, args, kwargs)
 
 

@@ -1,6 +1,6 @@
 import logging
 from copy import deepcopy
-from typing import List, Dict, Any, Mapping
+from typing import List, Dict, Any, Mapping, Callable
 
 from super_mario.exceptions import ProgrammingException, GlobalContextUpdateException
 from super_mario.utils.types import is_contains_only_basic_types
@@ -19,6 +19,13 @@ class BasePipeline:
         super().__init__()
         self.validate_pipeline_raise_on_error()
 
+    @staticmethod
+    def _validate_pipe_result_raise_on_error(pipe_result: ContextType, pipe_name: str) -> None:
+        if not is_contains_only_basic_types(pipe_result):
+            raise ProgrammingException(
+                f'Pipe {pipe_name} returned non-basic types ({pipe_result})',
+            )
+
     @classmethod
     def validate_pipeline_raise_on_error(cls) -> None:
         for pipe_name in cls.pipeline:
@@ -27,7 +34,7 @@ class BasePipeline:
                     f'{pipe_name} is not implemented in {cls.__name__}',
                 )
 
-    def get_pipe_args(self, pipe_callable) -> ImmutableContext:
+    def get_pipe_args(self, pipe_callable: Callable) -> ImmutableContext:
         pipe_args_names = pipe_callable.__code__.co_varnames
         return {a: self.__context__[a] for a in pipe_args_names}
 
@@ -45,10 +52,17 @@ class BasePipeline:
             self.__context__.update(result)
         return result
 
-    def run(self, **kwargs) -> ContextType:
+    def run(self, **kwargs: Any) -> ContextType:
         self.__context__ = deepcopy(kwargs)
         result = self.handle_pipeline()
         return list(result.values())[0]
+
+    def _validate_implicit_context_update(self, result: ContextType, pipe_name: str) -> None:
+        for result_key in result.keys():
+            if result_key in self.__context__.keys():
+                raise GlobalContextUpdateException(
+                    f'Pipe {pipe_name} tried to update context with existed keys.',
+                )
 
     def _validate_pipe(self, result: ContextType, pipe_name: str) -> None:
         pipe_validators = (
@@ -58,17 +72,3 @@ class BasePipeline:
 
         for pipe_validator in pipe_validators:
             pipe_validator(result, pipe_name)
-
-    @staticmethod
-    def _validate_pipe_result_raise_on_error(pipe_result: ContextType, pipe_name: str) -> None:
-        if not is_contains_only_basic_types(pipe_result):
-            raise ProgrammingException(
-                f'Pipe {pipe_name} returned non-basic types ({pipe_result})',
-            )
-
-    def _validate_implicit_context_update(self, result: ContextType, pipe_name: str) -> None:
-        for result_key in result.keys():
-            if result_key in self.__context__.keys():
-                raise GlobalContextUpdateException(
-                    f'Pipe {pipe_name} tried to update context with existed keys.',
-                )

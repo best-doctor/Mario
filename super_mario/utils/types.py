@@ -1,9 +1,10 @@
 from datetime import datetime
+from typing import Any
 
 from super_mario.utils.lists import flat
 
 
-def is_contains_only_basic_types(some_data) -> bool:
+def is_contains_only_basic_types(some_data: Any) -> bool:
     allowed_containers = [
         dict,
         list,
