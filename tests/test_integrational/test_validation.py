@@ -16,7 +16,7 @@ def test_allowed_data_types_in_result_is_ok():
 
         @process_pipe
         def get_data():
-            return {'a': 1, 'b': 0.2, 'c': 'test', 'd': datetime(2019, 1, 1), 'e': [], 'f': {}}
+            return {'a': 1, 'b': 0.2, 'c': 'test', 'd': datetime(2019, 1, 1), 'e': [], 'f': {}, 'g': None}
 
         @process_pipe
         def get_money(discount: Decimal):

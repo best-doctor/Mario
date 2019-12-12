@@ -18,6 +18,10 @@ def is_contains_only_basic_types(some_data: Any) -> bool:
         datetime,
         Decimal,
     ]
+
+    if some_data is None:
+        return True
+
     if isinstance(some_data, tuple(allowed_containers)):
         if isinstance(some_data, dict):
             subitems = flat(some_data.items())
