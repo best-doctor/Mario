@@ -19,6 +19,7 @@ def test_simple_pipeline():
             return {'e': c * d}
 
     result = SimplePipeline().run(a=2, b=3, c=4)
+
     assert result == 20
 
 
@@ -45,4 +46,5 @@ def test_no_static_method_pipeline():
             return {'f': e * d}
 
     result = SimplePipeline().run(a=2, b=3, c=4)
+
     assert result == 35

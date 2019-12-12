@@ -1,6 +1,7 @@
 import logging
 from copy import deepcopy
-from typing import List, Dict, Any, Mapping, Callable
+from typing import List, Dict, Any, Mapping, Callable, Tuple
+from inspect import signature
 
 from super_mario.exceptions import ProgrammingException, GlobalContextUpdateException
 from super_mario.utils.types import is_contains_only_basic_types
@@ -34,8 +35,14 @@ class BasePipeline:
                     f'{pipe_name} is not implemented in {cls.__name__}',
                 )
 
+    def get_pipe_signature_args(self, pipe_callable: Callable) -> Tuple[str, ...]:
+        pipe_func = getattr(pipe_callable, '__func__', pipe_callable)
+        pipe_signature = signature(pipe_func)
+        pipe_args_names = pipe_signature.parameters.keys()
+        return tuple(pipe_args_names)
+
     def get_pipe_args(self, pipe_callable: Callable) -> ImmutableContext:
-        pipe_args_names = pipe_callable.__code__.co_varnames
+        pipe_args_names = self.get_pipe_signature_args(pipe_callable)
         return {a: self.__context__[a] for a in pipe_args_names}
 
     def handle_pipeline(self) -> ContextType:
