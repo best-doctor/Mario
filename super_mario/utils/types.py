@@ -1,4 +1,5 @@
 from datetime import datetime
+from decimal import Decimal
 from typing import Any
 
 from super_mario.utils.lists import flat
@@ -15,6 +16,7 @@ def is_contains_only_basic_types(some_data: Any) -> bool:
         float,
         str,
         datetime,
+        Decimal,
     ]
     if isinstance(some_data, tuple(allowed_containers)):
         if isinstance(some_data, dict):

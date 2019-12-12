@@ -40,7 +40,6 @@ def test_no_static_method_pipeline():
         def sum_numbers_again(d):
             return {'e': d + 2}
 
-
         @process_pipe
         def multiply_numbers(e, d):
             return {'f': e * d}
