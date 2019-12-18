@@ -1,6 +1,6 @@
-from datetime import datetime
+from datetime import datetime, date
 from decimal import Decimal
-from typing import Any
+from typing import Any, NamedTuple
 
 from super_mario.utils.lists import flat
 
@@ -17,6 +17,8 @@ def is_contains_only_basic_types(some_data: Any) -> bool:
         str,
         datetime,
         Decimal,
+        date,
+        NamedTuple,
     ]
 
     if some_data is None:
