@@ -73,7 +73,7 @@ class JiraCommentsNotificationPipeline(BasePipeline):
         jira_to_slack_id_mapping: Mapping[str, str],
     ) -> ImmutableContext:
         message = '\n'.join([
-            f'@{jira_to_slack_id_mapping[c["user_id"]]} wrote comment for {jira_ticket_id}: "{c['text']}"'
+            f'@{jira_to_slack_id_mapping[c["user_id"]]} wrote comment for {jira_ticket_id}: "{c["text"]}"'
             for c in new_comments
         ])
         return {'message': message}
