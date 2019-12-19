@@ -62,7 +62,7 @@ class BasePipeline:
     def run(self, **kwargs: Any) -> ContextType:
         self.__context__ = deepcopy(kwargs)
         result = self.handle_pipeline()
-        return list(result.values())[0]
+        return list(result.values())[0] if result else None
 
     def _validate_implicit_context_update(self, result: ContextType, pipe_name: str) -> None:
         for result_key in result.keys():

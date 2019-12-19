@@ -70,3 +70,19 @@ def test_works_when_nonlast_pipe_returns_nothing():
     result = SimplePipeline().run(a=2)
 
     assert result == 4
+
+
+def test_works_when_last_pipe_returns_nothing():
+    class SimplePipeline(BasePipeline):
+        pipeline = [
+            'sum_numbers',
+        ]
+
+        @staticmethod
+        @process_pipe
+        def sum_numbers(a):
+            return None
+
+    result = SimplePipeline().run(a=2)
+
+    assert result is None
