@@ -48,3 +48,25 @@ def test_no_static_method_pipeline():
     result = SimplePipeline().run(a=2, b=3, c=4)
 
     assert result == 35
+
+
+def test_works_when_nonlast_pipe_returns_nothing():
+    class SimplePipeline(BasePipeline):
+        pipeline = [
+            'sum_numbers',
+            'sum_numbers_again',
+        ]
+
+        @staticmethod
+        @process_pipe
+        def sum_numbers(a):
+            return None
+
+        @process_pipe
+        @staticmethod
+        def sum_numbers_again(a):
+            return {'b': a + 2}
+
+    result = SimplePipeline().run(a=2)
+
+    assert result == 4

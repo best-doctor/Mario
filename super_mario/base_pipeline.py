@@ -52,11 +52,11 @@ class BasePipeline:
 
             logger.debug(f'Executing {pipe_name} with {pipe_args}...')
             result = pipe(**pipe_args)
-
-            self._validate_pipe(result, pipe_name)
-
             logger.debug(f'\t{pipe_name} finished')
-            self.__context__.update(result)
+
+            if result:
+                self._validate_pipe(result, pipe_name)
+                self.__context__.update(result)
         return result
 
     def run(self, **kwargs: Any) -> ContextType:
