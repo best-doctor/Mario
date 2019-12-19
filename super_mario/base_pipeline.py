@@ -5,6 +5,8 @@ from inspect import signature
 
 from super_mario.exceptions import ProgrammingException, GlobalContextUpdateException
 from super_mario.utils.types import is_contains_only_basic_types
+from super_mario.utils.formatters import format_object_for_logging
+
 
 ContextType = Dict[str, Any]
 ImmutableContext = Mapping[str, Any]
@@ -56,7 +58,9 @@ class BasePipeline:
             pipe = getattr(self, pipe_name)
             pipe_args = self.get_pipe_args(pipe)
 
-            logger.debug(f'Executing {pipe_name} with {pipe_args}...')
+            logger.debug(
+                f'Executing {pipe_name} with {format_object_for_logging(pipe_args)}...',
+            )
             result = pipe(**pipe_args)
             logger.debug(f'\t{pipe_name} finished')
 
