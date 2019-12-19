@@ -37,49 +37,55 @@ cyclomatic complexity ~3), processing pipes should be pure.
 
 ## Usage example
 
+Here is simple pipeline, that send notifications on new comments in Jira
+tickets to Slack. 
+
 ```python
-class VisitHistoryView(BasePipeline):
+class JiraCommentsNotificationPipeline(BasePipeline):
     pipeline = [
-        'get_user_bills',
-        'get_user_legals',
-        'calculate_visits_periods',
-        'format_json_response',
+        'fetch_new_comments',
+        'fetch_users_mapping',
+        'generate_slack_message',
+        'send_slack_message',
     ]
 
     @input_pipe
-    def get_user_bills(user: User) -> List[UserBill]:  # User and UserBill is a Python dataclass
-        """
-        Returns list of python dataclasses, that represents information about user bills.
-        
-        - no business logic on this layer (use linters for detect high complexity level)
-        - we can use database access on this layer, but only through special context manager 
-        - here we have special model manager that returns simple dataclass, not an orm instance
-        - we take `user` arguments from base context, that was filled by PipelineView
-        - we have no access to base context from any method
-        """
-        return UserBill.objects_to_dataclass.get_user_bills(user)
+    def fetch_new_comments(jira_ticket_id: str) -> ImmutableContext:
+        return {'new_comments':
+            fetch_jira_comments(
+                ticket_id=jira_ticket_id,
+                date_from=datetime.datetime.now().replace(hours=0, minutes=0, seconds=0, milliseconds=0),
+            ),
+        }
+
+    @input_pipe
+    def fetch_users_mapping(new_comments: List[IssueComment]) -> ImmutableContext:
+        return {
+            'jira_to_slack_id_mapping': dict(User.objects.filter(
+                jira_id__in=[c['user_id'] for c in new_comments],
+            ).values_list('jira_id', 'slack_id'))
+        }
 
     @process_pipe
-    def calculate_visits_periods(user_bills: List[UserBill]) -> List[VisitsPeriods]:
-        """
-        VisitsPeriods is a business logic hadler.
-        
-        - we can't use database access on this layer
-        - it's a domain entity
-        - it has no ability to interact with external dependencies
-        - when we change something in outer world, we should not make any change in this layer
-        - also, we should have here the best code. This code should be tested very well
-        """
-        return VisitsPeriods.calculate(patient_bills)
+    def generate_slack_message(
+        jira_ticket_id: str,
+        new_comments: List[IssueComment],
+        jira_to_slack_id_mapping: Mapping[str, str],
+    ) -> ImmutableContext:
+        message = '\n'.join([
+            f'@{jira_to_slack_id_mapping[c["user_id"]]} wrote comment for {jira_ticket_id}: "{c['text']}"'
+            for c in new_comments
+        ])
+        return {'message': message}
 
     @output_pipe
-    def get_pipeline_result(visits_periods: List[VisitsPeriodsDataClass]) -> JsonResponse:
-        """
-        Representation layer.
-    
-        - we can use database access on this layer, but only through special context manager
-        - it also takes dataclasses
-        - no business logic on this layer (use linters for detect high complexity level)
-        """
-        return {'visit_periods': visits_periods}
+    def send_slack_message(message: str) -> None:
+        send_message(
+            destination='slack',
+            channel=COMMENTS_SLACK_CHANNEL_ID,
+            text=message,
+        )
+
+# run pipeline for specific ticket
+JiraCommentsNotificationPipeline().run(jira_ticket_id='TST-12')
 ``` 
