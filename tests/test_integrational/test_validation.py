@@ -57,3 +57,25 @@ def test_complex_data_in_result_raises_error():
 
     with pytest.raises(ProgrammingException):
         SimplePipeline().run()
+
+
+def test_raises_error_on_no_data_in_context():
+    class SimplePipeline(BasePipeline):
+        pipeline = [
+            'sum_numbers',
+            'sum_numbers_again',
+        ]
+
+        @process_pipe
+        def sum_numbers(a):
+            return {'b': a + 1}
+
+        @process_pipe
+        def sum_numbers_again(c):
+            return {'d': c + 4}
+
+    with pytest.raises(ProgrammingException):
+        SimplePipeline().run()
+
+    with pytest.raises(ProgrammingException):
+        SimplePipeline().run(a=1)

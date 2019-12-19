@@ -43,6 +43,12 @@ class BasePipeline:
 
     def get_pipe_args(self, pipe_callable: Callable) -> ImmutableContext:
         pipe_args_names = self.get_pipe_signature_args(pipe_callable)
+        for arg_name in pipe_args_names:
+            if arg_name not in self.__context__:
+                raise ProgrammingException(
+                    f'Argument "{arg_name}" not found when executing '
+                    f'{type(self).__name__}.{pipe_callable.__name__}',
+                )
         return {a: self.__context__[a] for a in pipe_args_names}
 
     def handle_pipeline(self) -> ContextType:
