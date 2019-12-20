@@ -44,6 +44,7 @@ setup(
     install_requires=[
         'setuptools',
         'wrapt>=1.11.2',
+        'typing-inspect>=0.5.0',
     ],
     url='https://github.com/best-doctor/Mario/',
     license='MIT',
