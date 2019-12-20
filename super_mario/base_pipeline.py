@@ -1,6 +1,6 @@
 import logging
 from copy import deepcopy
-from typing import List, Dict, Any, Mapping, Callable, Tuple
+from typing import List, Dict, Any, Mapping, Callable, Tuple, Type
 from inspect import signature
 
 from super_mario.exceptions import ProgrammingException, GlobalContextUpdateException
@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 class BasePipeline:
     __context__: ContextType = {}
     pipeline: List[str] = []
+    initial_arguments: List[Tuple[str, Type]] = []
 
     def __init__(self) -> None:
         super().__init__()
@@ -35,6 +36,28 @@ class BasePipeline:
             if pipe_name not in cls.__dict__:
                 raise ProgrammingException(
                     f'{pipe_name} is not implemented in {cls.__name__}',
+                )
+
+    @classmethod
+    def validate_run_arguments_raise_on_error(
+        cls,
+        actual_run_arguments: Mapping[str, Any],
+    ) -> None:
+        if not cls.initial_arguments:
+            return None
+        arguments_mapping = dict(cls.initial_arguments)
+        for argument_name, argument_value in actual_run_arguments.items():
+            if argument_name not in arguments_mapping:
+                raise ProgrammingException(
+                    f'{cls.__name__}.run was called with unknown argument {argument_name}. '
+                    f'All run arguments should be specified in {cls.__name__}.initial_arguments',
+                )
+            argument_type = arguments_mapping[argument_name]
+            if argument_type is not None and not isinstance(argument_value, argument_type):
+                raise ProgrammingException(
+                    f'{cls.__name__}.run was called with argument {argument_name} of type '
+                    f'{type(argument_value).__name__}, but it is specified '
+                    f'to be of type {argument_type}.',
                 )
 
     def get_pipe_signature_args(self, pipe_callable: Callable) -> Tuple[str, ...]:
@@ -70,6 +93,7 @@ class BasePipeline:
         return result
 
     def run(self, **kwargs: Any) -> ContextType:
+        self.validate_run_arguments_raise_on_error(kwargs)
         self.__context__ = deepcopy(kwargs)
         result = self.handle_pipeline()
         return list(result.values())[0] if result else None

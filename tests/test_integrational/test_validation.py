@@ -79,3 +79,21 @@ def test_raises_error_on_no_data_in_context():
 
     with pytest.raises(ProgrammingException):
         SimplePipeline().run(a=1)
+
+
+def test_raise_error_on_wrong_run_arguments():
+    class SimplePipeline(BasePipeline):
+        pipeline = [
+            'sum_numbers',
+        ]
+        initial_arguments = [('a', int)]
+
+        @process_pipe
+        def sum_numbers(a):
+            return {'b': a + 1}
+
+    with pytest.raises(ProgrammingException):
+        SimplePipeline().run(b=1)
+
+    with pytest.raises(ProgrammingException):
+        SimplePipeline().run(a='1')

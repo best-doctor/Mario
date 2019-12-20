@@ -90,7 +90,33 @@ class ExamplePipeline(BasePipeline):
 
 ```
 
-4. Run pipe with all specified arguments:
+4. Specify `run` arguments with its types. It can be dove via `initial_arguments`
+which is list of tuples: first argument is parameter name as string,
+second is argument type (or tuple of allowed types).
+
+```python
+class ExamplePipeline(BasePipeline):
+    pipeline = ['sum_numbers', 'multiply_numbers', 'send_to_slack']
+    initial_arguments = [('a', int), ('b', int), ('c', int)]
+
+    @process_pipe
+    @staticmethod
+    def sum_numbers(a, b):
+        return {'d': a + b}
+
+    @process_pipe
+    @staticmethod
+    def multiply_numbers(c, d):
+        return {'e': c * d}
+
+    @output_pipe
+    @staticmethod
+    def send_to_slack(e):
+        send_message_to_slack(text=e)
+
+```
+
+5. Run pipe with all specified arguments:
 
 ```python
 ExamplePipeline.run(a=1, b=2, c=3)
