@@ -29,11 +29,14 @@ can be transferred from pipe to pipe.
 
 Each pipe is one of 3 types: input, output, processing.
 Input and output should be non-complex (like really non-complex,
-cyclomatic complexity ~3), processing pipes should be pure. 
+cyclomatic complexity ~3), processing pipes should be pure.
 
 ## Installation
 
 `pip install super-mario`
+
+## Docs
+[Here they are](https://github.com/best-doctor/Mario/blob/master/docs/index.md).
 
 ## Usage example
 
