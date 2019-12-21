@@ -31,6 +31,7 @@ setup(
         'Intended Audience :: Developers',
         'License :: Freely Distributable',
         'Programming Language :: Python :: 3 :: Only',
+        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Topic :: Software Development',
         'Topic :: Software Development :: Libraries :: Python Modules',
