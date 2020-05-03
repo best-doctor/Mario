@@ -15,7 +15,7 @@ Library for separating data input, output and processing in your business applic
 ## Motivation & main idea
 
 You have tons of business logic.
-You like clean architecture, but you're sane. 
+You like clean architecture, but you're sane.
 You like dynamic structure of Python, but you're tied of runtime errors.
 You want to break things a little less and keep moving fast.
 You're is the right place.
@@ -36,12 +36,13 @@ cyclomatic complexity ~3), processing pipes should be pure.
 `pip install super-mario`
 
 ## Docs
+
 [Here they are](https://github.com/best-doctor/Mario/blob/master/docs/index.md).
 
 ## Usage example
 
 Here is simple pipeline, that send notifications on new comments in Jira
-tickets to Slack. 
+tickets to Slack.
 
 ```python
 class JiraCommentsNotificationPipeline(BasePipeline):
@@ -57,7 +58,9 @@ class JiraCommentsNotificationPipeline(BasePipeline):
         return {'new_comments':
             fetch_jira_comments(
                 ticket_id=jira_ticket_id,
-                date_from=datetime.datetime.now().replace(hours=0, minutes=0, seconds=0, milliseconds=0),
+                date_from=datetime.datetime.now().replace(
+                    hours=0, minutes=0, seconds=0, milliseconds=0,
+                ),
             ),
         }
 
@@ -76,7 +79,8 @@ class JiraCommentsNotificationPipeline(BasePipeline):
         jira_to_slack_id_mapping: Mapping[str, str],
     ) -> ImmutableContext:
         message = '\n'.join([
-            f'@{jira_to_slack_id_mapping[c["user_id"]]} wrote comment for {jira_ticket_id}: "{c["text"]}"'
+            f'@{jira_to_slack_id_mapping[c["user_id"]]} wrote'
+            f'comment for {jira_ticket_id}: "{c["text"]}"'
             for c in new_comments
         ])
         return {'message': message}
@@ -91,4 +95,23 @@ class JiraCommentsNotificationPipeline(BasePipeline):
 
 # run pipeline for specific ticket
 JiraCommentsNotificationPipeline().run(jira_ticket_id='TST-12')
-``` 
+```
+
+## Contributing
+
+We would love you to contribute to our project. It's simple:
+
+1. Create an issue with bug you found or proposal you have.
+   Wait for approve from maintainer.
+1. Create a pull request. Make sure all checks are green.
+1. Fix review comments if any.
+1. Be awesome.
+
+Here are useful tips:
+
+- You can run all checks and tests with `make check`.
+  Please do it before TravisCI does.
+- We use [BestDoctor python styleguide](https://github.com/best-doctor/guides/blob/master/guides/python_styleguide.md).
+  Sorry, styleguide is available only in Russian for now.
+- We respect [Django CoC](https://www.djangoproject.com/conduct/).
+  Make soft, not bullshit.

@@ -1,11 +1,16 @@
+from __future__ import annotations
+
 from collections import Mapping
 from datetime import datetime, date
 from decimal import Decimal
-from typing import Any, NamedTuple, Type, Optional
+from typing import Any, NamedTuple, Optional
 
 from typing_inspect import get_origin, get_args, is_optional_type, is_union_type
 
 from super_mario.utils.lists import flat
+
+if False:  # TYPE_CHECKING
+    from typing import Type
 
 
 def is_contains_only_basic_types(some_data: Any) -> bool:

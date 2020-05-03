@@ -1,7 +1,12 @@
-from typing import Any, Type, NamedTuple
+from __future__ import annotations
+
+from typing import Any, NamedTuple
 
 from super_mario.exceptions import ProgrammingException
 from super_mario.utils.types import is_instance_of_type
+
+if False:  # TYPE_CHECKING
+    from typing import Type
 
 
 def map_object_to_namedtuple(
