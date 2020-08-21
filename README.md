@@ -16,7 +16,7 @@ Library for separating data input, output and processing in your business applic
 
 You have tons of business logic.
 You like clean architecture, but you're sane.
-You like dynamic structure of Python, but you're tied of runtime errors.
+You like dynamic structure of Python, but you're tired of runtime errors.
 You want to break things a little less and keep moving fast.
 You're is the right place.
 
