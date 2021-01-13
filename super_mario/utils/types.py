@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections import Mapping
 from datetime import datetime, date
 from decimal import Decimal
-from typing import Any, NamedTuple, Optional
+from typing import Any, Optional, Iterable
 
 from typing_inspect import get_origin, get_args, is_optional_type, is_union_type
 
@@ -14,31 +14,34 @@ if False:  # TYPE_CHECKING
 
 
 def is_contains_only_basic_types(some_data: Any) -> bool:
-    allowed_containers = [
+    allowed_containers = (
         dict,
         list,
         tuple,
-    ]
-    allowed_types = [
+    )
+    allowed_types = (
         int,
         float,
         str,
         datetime,
         Decimal,
         date,
-        NamedTuple,
-    ]
+    )
 
     if some_data is None:
         return True
 
-    if isinstance(some_data, tuple(allowed_containers)):
+    if isinstance(some_data, allowed_containers):
         if isinstance(some_data, dict):
-            subitems = flat(some_data.items())
+            subitems: Iterable = flat(some_data.items())
         else:
             subitems = some_data
         return all(is_contains_only_basic_types(d) for d in subitems)
-    return isinstance(some_data, tuple(allowed_types))
+    return isinstance(some_data, allowed_types) or is_instance_of_named_tuple(some_data)
+
+
+def is_instance_of_named_tuple(object_: Any) -> bool:
+    return isinstance(object_, tuple) and hasattr(object_, '_fields')
 
 
 def is_instance_of_type(_object: Any, required_type: Type) -> Optional[bool]:

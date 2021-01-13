@@ -1,6 +1,9 @@
+import collections
 from typing import List, Dict, Mapping, Iterable, Tuple, Set, Optional, Union
 
-from super_mario.utils.types import is_instance_of_type
+import pytest
+
+from super_mario.utils.types import is_instance_of_type, is_instance_of_named_tuple
 
 
 def test_is_instance_of_type_simple_types():
@@ -75,3 +78,16 @@ def test_is_instance_of_type_typing_with_unions():
 
     assert is_instance_of_type({'a': 1, 'b': '2'}, Dict[str, Union[int, str]])
     assert is_instance_of_type({1: 'a', '2': 'b'}, Dict[Union[int, str], str])
+
+
+@pytest.mark.parametrize(
+    ('named_tuple', 'expected_result'),
+    [
+        (collections.namedtuple('Test', 'a, b, c')(1, 2, 3), True),
+        ((1, 2, 3), False),
+        ('str', False),
+        (['str'], False),
+    ],
+)
+def test_is_instance_of_named_tuple(named_tuple, expected_result):
+    assert is_instance_of_named_tuple(named_tuple) == expected_result
