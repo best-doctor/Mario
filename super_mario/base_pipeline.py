@@ -2,14 +2,14 @@ from __future__ import annotations
 
 import logging
 from copy import deepcopy
-from typing import List, Dict, Any, Mapping, Callable, Tuple
+from typing import List, Dict, Any, Mapping, Callable, Tuple, TYPE_CHECKING
 from inspect import signature
 
 from super_mario.exceptions import ProgrammingException, GlobalContextUpdateException
 from super_mario.utils.types import is_contains_only_basic_types
 from super_mario.utils.formatters import format_object_for_logging
 
-if False:  # TYPE_CHECKING
+if TYPE_CHECKING:
     from typing import Type
 
 ContextType = Dict[str, Any]

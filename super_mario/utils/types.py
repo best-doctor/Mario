@@ -1,15 +1,15 @@
 from __future__ import annotations
 
-from collections import Mapping
+from collections.abc import Mapping
 from datetime import datetime, date
 from decimal import Decimal
-from typing import Any, Optional, Iterable
+from typing import Any, Optional, Iterable, TYPE_CHECKING
 
 from typing_inspect import get_origin, get_args, is_optional_type, is_union_type
 
 from super_mario.utils.lists import flat
 
-if False:  # TYPE_CHECKING
+if TYPE_CHECKING:
     from typing import Type
 
 

@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from typing import Any, NamedTuple
+from typing import Any, NamedTuple, TYPE_CHECKING
 
 from super_mario.exceptions import ProgrammingException
 from super_mario.utils.types import is_instance_of_type
 
-if False:  # TYPE_CHECKING
+if TYPE_CHECKING:
     from typing import Type
 
 
