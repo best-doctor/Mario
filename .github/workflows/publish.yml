@@ -18,7 +18,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
-      run: pip install -r requirements_.txt
+      run: pip install -r requirements.in
     - name: Run checks
       run: make check test
   publish:
@@ -29,7 +29,7 @@ jobs:
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
       - name: Install dependencies
-        run: pip install -r requirements.txt setuptools wheel twine
+        run: pip install -r requirements.in setuptools wheel twine
       - name: Build and publish
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
