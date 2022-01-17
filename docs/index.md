@@ -65,7 +65,7 @@ class ExamplePipeline(BasePipeline):
 ```
 
 1. Add pipes. Each pipe should have pipe type decorator,
-required arguments and optionally return new data.
+   required arguments and optionally return new data.
 
 ```python
 from super_mario import BasePipeline, process_pipe, output_pipe
@@ -87,12 +87,11 @@ class ExamplePipeline(BasePipeline):
     @staticmethod
     def send_to_slack(e):
         send_message_to_slack(text=e)
-
 ```
 
 1. Specify `run` arguments with its types. It can be dove via `initial_arguments`
-which is list of tuples: first argument is parameter name as string,
-second is argument type (or tuple of allowed types).
+   which is list of tuples: first argument is parameter name as string,
+   second is argument type (or tuple of allowed types).
 
 ```python
 class ExamplePipeline(BasePipeline):
@@ -113,7 +112,6 @@ class ExamplePipeline(BasePipeline):
     @staticmethod
     def send_to_slack(e):
         send_message_to_slack(text=e)
-
 ```
 
 1. Run pipe with all specified arguments:
