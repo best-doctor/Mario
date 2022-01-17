@@ -34,6 +34,7 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
         'Topic :: Software Development',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
@@ -45,8 +46,8 @@ setup(
     author_email='melevir@gmail.com',
     install_requires=[
         'setuptools',
-        'wrapt>=1.11.2',
-        'typing-inspect>=0.5.0',
+        'wrapt>=1.13.3',
+        'typing-inspect>=0.7.1',
     ],
     url='https://github.com/best-doctor/Mario/',
     license='MIT',
