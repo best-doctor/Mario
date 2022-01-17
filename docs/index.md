@@ -15,7 +15,7 @@ Pipelines helps you to separate long scenario to sequential
 set of small actions to make code more descriptive, understandable
 and testable.
 
-Each pipe has its own type, has access only to data it uses, it can't 
+Each pipe has its own type, has access only to data it uses, it can't
 overwrite or modify existing data. Pipes should be short and represent
 single logic step of scenario.
 
@@ -34,7 +34,7 @@ strings and so on.
 
 **Input** pipes should be used to receive data. It should not do
 any data processing, only receiving. Should not do any data updates,
-only reading. Preferably to use read-only access to data storages.  
+only reading. Preferably to use read-only access to data storages.
 
 **Process** pipes do data processing: transferring one data to another.
 No fetch or output, only processing. Can have logic, but should be
@@ -55,7 +55,7 @@ class ExamplePipeline(BasePipeline):
     pass
 ```
 
-2. Fill `pipeline` with sequential names of pipes.
+1. Fill `pipeline` with sequential names of pipes.
 
 ```python
 from super_mario import BasePipeline
@@ -64,7 +64,7 @@ class ExamplePipeline(BasePipeline):
     pipeline = ['sum_numbers', 'multiply_numbers']
 ```
 
-3. Add pipes. Each pipe should have pipe type decorator,
+1. Add pipes. Each pipe should have pipe type decorator,
 required arguments and optionally return new data.
 
 ```python
@@ -72,7 +72,7 @@ from super_mario import BasePipeline, process_pipe, output_pipe
 
 class ExamplePipeline(BasePipeline):
     pipeline = ['sum_numbers', 'multiply_numbers', 'send_to_slack']
-    
+
     @process_pipe
     @staticmethod
     def sum_numbers(a, b):
@@ -90,7 +90,7 @@ class ExamplePipeline(BasePipeline):
 
 ```
 
-4. Specify `run` arguments with its types. It can be dove via `initial_arguments`
+1. Specify `run` arguments with its types. It can be dove via `initial_arguments`
 which is list of tuples: first argument is parameter name as string,
 second is argument type (or tuple of allowed types).
 
@@ -116,7 +116,7 @@ class ExamplePipeline(BasePipeline):
 
 ```
 
-5. Run pipe with all specified arguments:
+1. Run pipe with all specified arguments:
 
 ```python
 ExamplePipeline.run(a=1, b=2, c=3)
@@ -131,7 +131,6 @@ Watch out for `ProgrammingException` errors.
 Some other validations are done as static analysis,
 so please use [flake8-super-mario](https://github.com/Melevir/flake8-super-mario).
 Mario doesn't make a lot of sence without these validations.
-
 
 ## Pipeline logging
 
